@@ -24,4 +24,5 @@ eventEmitter.on('data_received', function(){
 // 触发 connection 事件
 eventEmitter.emit('connection');
 
+console.log("-------------");
 console.log("程序执行完毕。");
