@@ -4,7 +4,8 @@
   "description": "node",
   "main": "index.js",
   "scripts": {
-    "test": "node"
+    "test": "node server/server.js",
+    "mongo":"net start tjjy"
   },
   "keywords": [
     "node"
