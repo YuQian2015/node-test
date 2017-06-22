@@ -1,13 +1,21 @@
 var path = require('path');
 var http = require('http');
 var express = require('express');
+var multipart = require('connect-multiparty');
+var bodyParser = require('body-parser');
 var fs = require("fs");
 
 var router = express();
+var multipartMiddleware = multipart();
 
 //设置静态资源
 router.use(express.static(path.resolve(__dirname, '../client')));
 
+// need to use the https://www.npmjs.org/package/body-parser module to parse the body of POST request.
+// 创建 application/x-www-form-urlencoded 编码解析
+router.use(bodyParser.urlencoded({ extended: false }))
+// parse application/json
+router.use(bodyParser.json())
 
 //创建服务
 var server = http.createServer(router);
@@ -19,34 +27,67 @@ server.listen(process.env.PORT || 3000, process.env.IP || "127.0.0.1", function(
 
 var mongo = require('./MongoClient');
 mongo.connect(function (db) {
-
-  router.get('/listUsers', function (req, res) {
-
-        //连接到表 tjjy
-        //创建user集合
-        var collection = db.collection('user');
-        //插入数据
-        var data = [{"name":"余乾","password":"123456",createDate:new Date()}];
-        collection.insert(data, function(err, result) {
-            if(err)
-            {
-                console.log('Error:'+ err);
-                res.status(err.status).end();
-                return;
-            }
-            console.log(result);
-            // db.close();
-            res.json(result)
-            res.end();
-        });
-
-    //  fs.readFile( __dirname + "/" + "../users.json", 'utf8', function (err, data) {
-    //      console.log( data );
-    //      res.end( data );
-    //  });
+  router.post('/listUsers', function (req, res) {
+    if(!req.body.name){
+      res.json({
+        msg:'用户名为空',
+        success:false,
+        data:[],
+        status:'0'
+      })
+      res.end();
+      return;
+    }
+    if(!req.body.email){
+      res.json({
+        msg:'邮箱地址为空',
+        success:false,
+        data:[],
+        status:'0'
+      })
+      res.end();
+      return;
+    }
+    if(!req.body.password){
+      res.json({
+        msg:'密码为空',
+        success:false,
+        data:[],
+        status:'0'
+      })
+      res.end();
+      return;
+    }
+    var data = {
+      "email":req.body.email,
+      "password":req.body.password,
+      "createDate":new Date()
+    };
+    //连接到表 tjjy
+    //创建user集合
+    var collection = db.collection('user');
+    //插入数据
+    collection.insert(data, function(err, result) {
+        if(err)
+        {
+            console.log('Error:'+ err);
+            res.status(err.status).end();
+            return;
+        }
+        console.log(result.ops);
+        //db.close();
+        res.json(result.ops)
+        res.end();
+    });
   });
 
-  //     db.close();
+  //db.close();
+
+  router.post('/uploadFile', multipartMiddleware, function(req, res) {
+    res.header('Access-Control-Allow-Origin', '*');
+    console.log('get FormData Params: ', req.body);
+    res.json({result: 'success', data: req.body});
+  });
 });
 
 //
@@ -91,13 +132,4 @@ mongo.connect(function (db) {
 //        console.log( user );
 //        res.end( JSON.stringify(user));
 //    });
-// })
-//
-// var server = router.listen(8080, function () {
-//
-//   var host = server.address().address
-//   var port = server.address().port
-//
-//   console.log("应用实例，访问地址为 http://%s:%s", host, port)
-//
 // })
