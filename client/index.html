@@ -5,8 +5,11 @@
   <meta name="viewport" content="user-scalable=no, initial-scale=1, minimal-ui, maximum-scale=1, minimum-scale=1" />
   <link rel="shortcut icon" type="image/png" href="favicon.png?v1" sizes="16x16 32x32 64x64">
   <link rel="apple-touch-icon" sizes="120x120" href="apple-touch-icon-precomposed.png">
+  <!--Import jQuery before materialize.js-->
   <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+  <!--Import materialize.css-->
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+  <script type="text/javascript" src="js/materialize.min.js"></script>
   <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
 </head>
 
@@ -38,7 +41,6 @@
       </div>
   </div>
 </body>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
   <script type="text/javascript">
     var app = angular.module('myApp', []);
     app.controller('myCtrl', function($scope) {
