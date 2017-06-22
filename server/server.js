@@ -1,24 +1,27 @@
 var path = require('path');
 var http = require('http');
 var express = require('express');
-var multipart = require('connect-multiparty');
+// var multipart = require('connect-multiparty');
 var bodyParser = require('body-parser');
+var multer  = require('multer');
 var fs = require("fs");
 
-var router = express();
-var multipartMiddleware = multipart();
+var app = express();
+// var multipartMiddleware = multipart();
 
 //设置静态资源
-router.use(express.static(path.resolve(__dirname, '../client')));
+app.use(express.static(path.resolve(__dirname, '../client')));
 
 // need to use the https://www.npmjs.org/package/body-parser module to parse the body of POST request.
 // 创建 application/x-www-form-urlencoded 编码解析
-router.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
-router.use(bodyParser.json())
+app.use(bodyParser.json());
+
+app.use(multer({ dest: '/tmp/'}).array('image'));
 
 //创建服务
-var server = http.createServer(router);
+var server = http.createServer(app);
 server.listen(process.env.PORT || 3000, process.env.IP || "127.0.0.1", function(){
   var addr = server.address();
   console.log("Server listening at", addr.address + ":" + addr.port);
@@ -27,7 +30,7 @@ server.listen(process.env.PORT || 3000, process.env.IP || "127.0.0.1", function(
 
 var mongo = require('./MongoClient');
 mongo.connect(function (db) {
-  router.post('/listUsers', function (req, res) {
+  app.post('/listUsers', function (req, res) {
     if(!req.body.name){
       res.json({
         msg:'用户名为空',
@@ -83,11 +86,32 @@ mongo.connect(function (db) {
 
   //db.close();
 
-  router.post('/uploadFile', multipartMiddleware, function(req, res) {
-    res.header('Access-Control-Allow-Origin', '*');
-    console.log('get FormData Params: ', req.body);
-    res.json({result: 'success', data: req.body});
-  });
+  // app.post('/uploadFile', multipartMiddleware, function(req, res) {
+  //   res.header('Access-Control-Allow-Origin', '*');
+  //   console.log('get FormData Params: ', req.body);
+  //   res.json({result: 'success', data: req.body});
+  // });
+
+  app.post('/uploadFile', function (req, res) {
+
+   console.log(req.files[0]);  // 上传的文件信息
+
+   var des_file = __dirname + "/" + req.files[0].originalname;
+   fs.readFile( req.files[0].path, function (err, data) {
+        fs.writeFile(des_file, data, function (err) {
+         if( err ){
+              console.log( err );
+         }else{
+               response = {
+                   message:'File uploaded successfully',
+                   filename:req.files[0].originalname
+              };
+          }
+          console.log( response );
+          res.end( JSON.stringify( response ) );
+       });
+   });
+})
 });
 
 //
@@ -101,7 +125,7 @@ mongo.connect(function (db) {
 //    }
 // }
 //
-// router.get('/addUser', function (req, res) {
+// app.get('/addUser', function (req, res) {
 //    // 读取已存在的数据
 //    fs.readFile( __dirname + "/" + "users.json", 'utf8', function (err, data) {
 //        data = JSON.parse( data );
@@ -113,7 +137,7 @@ mongo.connect(function (db) {
 //
 // var id = 2;
 //
-// router.get('/deleteUser', function (req, res) {
+// app.get('/deleteUser', function (req, res) {
 //
 //    // First read existing users.
 //    fs.readFile( __dirname + "/" + "users.json", 'utf8', function (err, data) {
@@ -124,7 +148,7 @@ mongo.connect(function (db) {
 //        res.end( JSON.stringify(data));
 //    });
 // })
-// router.get('/:id', function (req, res) {
+// app.get('/:id', function (req, res) {
 //    // 首先我们读取已存在的用户
 //    fs.readFile( __dirname + "/" + "users.json", 'utf8', function (err, data) {
 //        data = JSON.parse( data );
