@@ -17,13 +17,38 @@ server.listen(process.env.PORT || 3000, process.env.IP || "127.0.0.1", function(
 });
 
 
+var mongo = require('./MongoClient');
+mongo.connect(function (db) {
 
-// router.get('/listUsers', function (req, res) {
-//    fs.readFile( __dirname + "/" + "users.json", 'utf8', function (err, data) {
-//        console.log( data );
-//        res.end( data );
-//    });
-// })
+  router.get('/listUsers', function (req, res) {
+
+        //连接到表 tjjy
+        //创建user集合
+        var collection = db.collection('user');
+        //插入数据
+        var data = [{"name":"余乾","password":"123456",createDate:new Date()}];
+        collection.insert(data, function(err, result) {
+            if(err)
+            {
+                console.log('Error:'+ err);
+                res.status(err.status).end();
+                return;
+            }
+            console.log(result);
+            // db.close();
+            res.json(result)
+            res.end();
+        });
+
+    //  fs.readFile( __dirname + "/" + "../users.json", 'utf8', function (err, data) {
+    //      console.log( data );
+    //      res.end( data );
+    //  });
+  });
+
+  //     db.close();
+});
+
 //
 // //添加的新用户数据
 // var user = {
