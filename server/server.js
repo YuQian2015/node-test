@@ -10,7 +10,7 @@ var app = express();
 // var multipartMiddleware = multipart();
 
 //设置静态资源
-app.use(express.static(path.resolve(__dirname, '../client')));
+app.use(express.static(path.resolve(__dirname, '../public')));
 
 // need to use the https://www.npmjs.org/package/body-parser module to parse the body of POST request.
 // 创建 application/x-www-form-urlencoded 编码解析
@@ -30,7 +30,7 @@ server.listen(process.env.PORT || 3000, process.env.IP || "127.0.0.1", function(
 
 var mongo = require('./MongoClient');
 mongo.connect(function (db) {
-  app.post('/listUsers', function (req, res) {
+  app.post('/api/listUsers', function (req, res) {
     if(!req.body.name){
       res.json({
         msg:'用户名为空',

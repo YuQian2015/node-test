@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "node server/server.js",
-    "mongo": "net start tjjy"
+    "mongo": "net start tjjy",
+    "build": "webpack --progress",
+    "dev":"webpack-dev-server --open"
   },
   "keywords": [
     "node"
@@ -21,6 +23,8 @@
     "vue": "^2.3.4"
   },
   "devDependencies": {
-    "webpack": "^3.0.0"
+    "html-webpack-plugin": "^2.28.0",
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^2.5.0"
   }
 }

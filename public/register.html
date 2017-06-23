@@ -1,0 +1,130 @@
+<head>
+  <title>小马过河</title>
+  <meta charset="utf-8">
+  <meta http-equiv="Access-Control-Allow-Origin" content="*">
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, minimal-ui, maximum-scale=1, minimum-scale=1" />
+  <link rel="shortcut icon" type="image/png" href="favicon.png?v1" sizes="16x16 32x32 64x64">
+  <link rel="apple-touch-icon" sizes="120x120" href="apple-touch-icon-precomposed.png">
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--Import jQuery before materialize.js-->
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <!--Import materialize.css-->
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+  <script type="text/javascript" src="js/materialize.min.js"></script>
+  <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+
+
+<body>
+  <nav>
+      <div class="nav-wrapper">
+        <a class="brand-logo">文字</a>
+        <a data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a>Sass</a></li>
+          <li><a>Components</a></li>
+          <li><a>JavaScript</a></li>
+        </ul>
+        <ul class="side-nav" id="mobile-demo">
+          <li><a>Sass</a></li>
+          <li><a>Components</a></li>
+          <li><a>Javascript</a></li>
+          <li><a>Mobile</a></li>
+        </ul>
+      </div>
+  </nav>
+  <div class="container">
+    <div id="App" ng-app="myApp" ng-controller="myCtrl">
+        <div class="row">
+         <div class="col s12">
+           <ul class="tabs tabs-fixed-width">
+             <li class="tab"><a class="active" href="#test1">注册</a></li>
+             <li class="tab"><a href="#test2">登录</a></li>
+           </ul>
+         </div>
+         <div id="test1" class="col s12">
+           <form class="col s12">
+             <div class="row">
+               <div class="input-field col s12">
+                 <input ng-model="name" id="name" type="text" class="validate">
+                 <label for="name">用户名</label>
+               </div>
+             </div>
+             <div class="row">
+               <div class="input-field col s12">
+                 <input id="email" type="email" ng-model="email" class="validate">
+                 <label for="email">邮箱</label>
+               </div>
+             </div>
+             <div class="row">
+               <div class="input-field col s12">
+                 <input id="password" type="password" ng-model="password" class="validate">
+                 <label for="password">密码</label>
+               </div>
+             </div>
+             <a ng-click="doSubmit()" class="waves-effect waves-light btn">注册</a>
+             <a class="waves-effect waves-light btn">查看</a>
+           </form>
+         </div>
+         <div id="test2" class="col s12">
+          <form action="/uploadFile" method="post" enctype="multipart/form-data">
+           <div class="file-field input-field">
+             <div class="btn">
+               <span>File</span>
+               <input type="file" name="image" size="50">
+             </div>
+             <div class="file-path-wrapper">
+               <input class="file-path validate" type="text">
+             </div>
+           </div>
+            <a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
+           <input type="submit" value="上传文件" />
+          </form>
+         </div>
+       </div>
+    </div>
+  </div>
+</body>
+  <script type="text/javascript">
+
+  $(".button-collapse").sideNav();
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope, $http) {
+        $scope.name = "";
+        $scope.email = "";
+        $scope.password = "";
+        $scope.doSubmit = function (){
+        if($scope.name == ""){
+          // Materialize.toast(message, displayLength, className, completeCallback);
+          Materialize.toast('请输入用户名！', 3000) // 3000 is the duration of the toast
+          return
+        }
+        if($scope.email == ""){
+          Materialize.toast('请输入邮箱！', 3000) // 3000 is the duration of the toast
+          return
+        }
+        if($scope.password == ""){
+          Materialize.toast('请输入密码！', 3000) // 3000 is the duration of the toast
+          return
+        }
+        // POST 请求
+        $http({
+        	method: 'POST',
+        	url: '/api/listUsers',
+          data:{
+            email:$scope.email,
+            password:$scope.password,
+            name:$scope.name
+          }
+        }).then(function successCallback(response) {
+            console.log(response);
+
+            // 请求成功执行代码
+        	}, function errorCallback(response) {
+            console.log(response);
+        // 请求失败执行代码
+          });
+        }
+    });
+  </script>
