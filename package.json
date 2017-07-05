@@ -7,7 +7,7 @@
     "test": "node server/server.js",
     "mongo": "net start tjjy",
     "build": "webpack --progress",
-    "dev":"webpack-dev-server --open"
+    "dev": "webpack-dev-server --open"
   },
   "keywords": [
     "node"
