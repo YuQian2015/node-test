@@ -31,6 +31,8 @@ server.listen(process.env.PORT || 3000, process.env.IP || "127.0.0.1", function(
 var mongo = require('./MongoClient');
 mongo.connect(function (db) {
   app.post('/api/listUsers', function (req, res) {
+    res.set('Access-Control-Allow-Origin', 'http://localhost:4200');
+    console.log(req.body)
     if(!req.body.name){
       res.json({
         msg:'用户名为空',
