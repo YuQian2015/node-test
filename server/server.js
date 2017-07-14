@@ -1,18 +1,25 @@
 var path = require('path');
 var http = require('http');
 var express = require('express');
-// var multipart = require('connect-multiparty');
 var bodyParser = require('body-parser');
 var multer  = require('multer');
+
+
 var fs = require("fs");
 
 var app = express();
+// var multipart = require('connect-multiparty');
 // var multipartMiddleware = multipart();
+
+var cors = require('cors')
+app.use(cors())
+
 
 //设置静态资源
 app.use(express.static(path.resolve(__dirname, '../public')));
 
 // need to use the https://www.npmjs.org/package/body-parser module to parse the body of POST request.
+// If you want the headers to show up for static files as well, try this (make sure it's before the call to use(express.static()):
 // 创建 application/x-www-form-urlencoded 编码解析
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
@@ -30,8 +37,21 @@ server.listen(process.env.PORT || 3000, process.env.IP || "127.0.0.1", function(
 
 var mongo = require('./MongoClient');
 mongo.connect(function (db) {
+
+  // app.all('*', function(req, res, next) {
+  //   //The first call (app.all) should be made before all the other routes in your app (or at least the ones you want to be CORS enabled).
+  //   res.header("Access-Control-Allow-Origin", "*");
+  //   res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+  //   res.header('Access-Control-Allow-Headers', 'Content-Type');
+  //   // res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  //
+  //   // res.header("X-Powered-By",' 3.2.1')
+  //   // res.header("Content-Type", "application/json;charset=utf-8");
+  //   next();
+  //  });
+
   app.post('/api/listUsers', function (req, res) {
-    res.set('Access-Control-Allow-Origin', 'http://localhost:4200');
+    console.log(req)
     console.log(req.body)
     if(!req.body.name){
       res.json({
