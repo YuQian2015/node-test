@@ -3,9 +3,12 @@ var http = require('http');
 var express = require('express');
 var bodyParser = require('body-parser');
 var multer  = require('multer');
-
-
 var fs = require("fs");
+
+
+var user = require("./api/user.js")
+var fileUploader = require("./api/fileUploader.js")
+var mongo = require('./MongoClient');
 
 var app = express();
 // var multipart = require('connect-multiparty');
@@ -35,7 +38,6 @@ server.listen(process.env.PORT || 3000, process.env.IP || "127.0.0.1", function(
 });
 
 
-var mongo = require('./MongoClient');
 mongo.connect(function (db) {
 
   // app.all('*', function(req, res, next) {
@@ -50,90 +52,16 @@ mongo.connect(function (db) {
   //   next();
   //  });
 
-  app.post('/api/listUsers', function (req, res) {
-    console.log(req)
-    console.log(req.body)
-    if(!req.body.name){
-      res.json({
-        msg:'用户名为空',
-        success:false,
-        data:[],
-        status:'0'
-      })
-      res.end();
-      return;
-    }
-    if(!req.body.email){
-      res.json({
-        msg:'邮箱地址为空',
-        success:false,
-        data:[],
-        status:'0'
-      })
-      res.end();
-      return;
-    }
-    if(!req.body.password){
-      res.json({
-        msg:'密码为空',
-        success:false,
-        data:[],
-        status:'0'
-      })
-      res.end();
-      return;
-    }
-    var data = {
-      "email":req.body.email,
-      "password":req.body.password,
-      "createDate":new Date()
-    };
-    //连接到表 tjjy
-    //创建user集合
-    var collection = db.collection('user');
-    //插入数据
-    collection.insert(data, function(err, result) {
-        if(err)
-        {
-            console.log('Error:'+ err);
-            res.status(err.status).end();
-            return;
-        }
-        console.log(result.ops);
-        //db.close();
-        res.json(result.ops)
-        res.end();
-    });
-  });
+  user(app,db);
+  fileUploader(app);
 
-  //db.close();
 
   // app.post('/uploadFile', multipartMiddleware, function(req, res) {
   //   res.header('Access-Control-Allow-Origin', '*');
   //   console.log('get FormData Params: ', req.body);
   //   res.json({result: 'success', data: req.body});
   // });
-
-  app.post('/api/uploadFile', function (req, res) {
-
-   console.log(req.files[0]);  // 上传的文件信息
-
-   var des_file = __dirname + "/upload/" + req.files[0].originalname;
-   fs.readFile( req.files[0].path, function (err, data) {
-        fs.writeFile(des_file, data, function (err) {
-         if( err ){
-              console.log( err );
-         }else{
-               response = {
-                   message:'File uploaded successfully',
-                   filename:req.files[0].originalname
-              };
-          }
-          console.log( response );
-          res.end( JSON.stringify( response ) );
-       });
-   });
-})
+  //db.close();
 });
 
 //
