@@ -3,23 +3,36 @@ var http = require('http');
 var express = require('express');
 var bodyParser = require('body-parser');
 var multer  = require('multer');
-var fs = require("fs");
 
-
+//定义接口
 var user = require("./api/user.js")
 var fileUploader = require("./api/fileUploader.js")
+
+//数据库设置
 var mongo = require('./MongoClient');
 
 var app = express();
-// var multipart = require('connect-multiparty');
-// var multipartMiddleware = multipart();
 
-var cors = require('cors')
-app.use(cors())
+//使用cors允许跨域
+// var cors = require('cors')
+// app.use(cors())
 
 
 //设置静态资源
 app.use(express.static(path.resolve(__dirname, '../public')));
+
+/** 设置跨域
+Seting up server to accept cross-origin browser requests */
+app.use(function(req, res, next) { //allow cross origin requests
+    res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Credentials", true);
+    next();
+});
+
+
+
 
 // need to use the https://www.npmjs.org/package/body-parser module to parse the body of POST request.
 // If you want the headers to show up for static files as well, try this (make sure it's before the call to use(express.static()):
@@ -28,6 +41,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
+//设置multer
 app.use(multer({ dest: '/tmp/'}).array('image'));
 
 //创建服务
@@ -54,14 +68,6 @@ mongo.connect(function (db) {
 
   user(app,db);
   fileUploader(app);
-
-
-  // app.post('/uploadFile', multipartMiddleware, function(req, res) {
-  //   res.header('Access-Control-Allow-Origin', '*');
-  //   console.log('get FormData Params: ', req.body);
-  //   res.json({result: 'success', data: req.body});
-  // });
-  //db.close();
 });
 
 //
