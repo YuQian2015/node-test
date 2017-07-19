@@ -111,3 +111,15 @@ app.use(cors())
 
 ## 用户登录/注册
 注册：/api/user/signup
+
+
+
+获取用户信息：/api/protect/getUser
+    id: string
+
+完善信息：/api/protect/completeUserInfo
+    id: string
+    sex: string
+    userType: string
+    avatar: string
+    userNo: string

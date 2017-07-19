@@ -3,6 +3,7 @@ let router = express.Router();
 let jwt = require('jsonwebtoken');
 let User = require('../models/user');
 
+let response = require('../middlewares/response');
 router.post('/signup', function(req, res){
     let user = new User({
         email: req.body.email,
@@ -18,24 +19,25 @@ router.post('/signup', function(req, res){
     })
 });
 
-router.post('/authenticate', function(req, res){
+router.post('/signin', function(req, res){
     let data = {
         email: req.body.email,
         password: req.body.password
     };
     User.findOne(data).lean().exec(function(err, user){
         if(err){
-            return res.json({error: true});
+            return res.json(response({"errorCode":"000"}));
         }
         if(!user){
-            return res.status(404).json({'message':'User not found!'});
+            return res.status(404).json(response({"errorCode":"404"}));
         }
-        console.log('--------------------------------------------------------------------------------');
-        console.log(user);
         let token = jwt.sign(user, global.config.jwt_secret, {
-            expiresIn: 14400 // expires in 1 hour
+            expiresIn: 14400 // 保留时间
         });
-        res.json({error:false, token:token});
+        res.json(response({"data":{
+          result:user,
+          token:token
+        }}));
     })
 });
 

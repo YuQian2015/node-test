@@ -1,4 +1,5 @@
 var jwt = require('jsonwebtoken');
+let response = require('./response');
 
 module.exports = function(req,res,next) {
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
@@ -9,16 +10,15 @@ module.exports = function(req,res,next) {
     // verifies secret and checks exp
         jwt.verify(token, global.config.jwt_secret, function(err, decoded) {
             if (err) { //failed verification.
-                return res.json({"error": true});
+                return res.json(response({"errorCode":"001"}));
             }
             req.decoded = decoded;
             console.log(decoded);
             next(); //no error, proceed
         });
     } else {
+      console.log(errorCode);
         // forbidden without token
-        return res.status(403).send({
-            "error": true
-        });
+        return res.status(403).send(response({"errorCode":"001"}));
     }
 }
