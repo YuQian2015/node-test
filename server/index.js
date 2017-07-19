@@ -7,6 +7,8 @@ global.config = require('./config/config');
 let jwt    = require('jsonwebtoken');
 let User   = require('./models/user');
 
+
+mongoose.Promise = global.Promise;
 mongoose.connect(global.config.mongoDB);
 
 /**

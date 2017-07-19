@@ -103,3 +103,11 @@ var cors = require('cors')
 
 var app = express()
 app.use(cors())
+
+
+
+
+接口调用传参统一用JSON JSON请求headers---"Content-Type":"application/json"
+
+## 用户登录/注册
+注册：/api/user/signup

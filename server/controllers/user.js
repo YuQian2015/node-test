@@ -6,7 +6,9 @@ let User = require('../models/user');
 router.post('/signup', function(req, res){
     let user = new User({
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        name:req.body.name,
+        createDate: new Date(),
     });
     user.save(function(err, data){
         if(err){
