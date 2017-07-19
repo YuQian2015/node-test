@@ -30,11 +30,12 @@ router.post('/authenticate', function(req, res){
         if(!user){
             return res.status(404).json({'message':'User not found!'});
         }
+        console.log('--------------------------------------------------------------------------------');
         console.log(user);
         let token = jwt.sign(user, global.config.jwt_secret, {
-            expiresIn: 1440 // expires in 1 hour
+            expiresIn: 14400 // expires in 1 hour
         });
-        res.json({error:false, token: token});
+        res.json({error:false, token:token});
     })
 });
 
