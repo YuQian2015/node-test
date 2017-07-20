@@ -4,9 +4,9 @@ let User = require('../models/user');
 
 let response = require('../middlewares/response');
 
-router.get('/', function(req, res){
-    res.json(req.decoded);
-});
+// router.get('/', function(req, res){
+//     res.json(req.decoded);
+// });
 
 router.post('/getUser', function(req, res){
   let query = {

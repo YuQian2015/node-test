@@ -1,6 +1,10 @@
 var appConfig = {
+  server:"127.0.0.1",
+  port:3000,
+
+
   mongoDB:"mongodb://localhost:3001/tjjy",
-  jwt_secret:"123456",
+  jwt_secret:"tjjy",
 
 
   // api

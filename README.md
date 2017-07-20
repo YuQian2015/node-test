@@ -109,17 +109,24 @@ app.use(cors())
 
 接口调用传参统一用JSON JSON请求headers---"Content-Type":"application/json"
 
-## 用户登录/注册
-注册：/api/user/signup
+注册:/api/user/signup
+    email: string
+    password: string
+    name: string
 
 
+登录:/api/user/signin
+    email: string
+    password: string
 
-获取用户信息：/api/protect/getUser
+获取用户信息:/api/protect/getUser
     id: string
+    token: string
 
-完善信息：/api/protect/completeUserInfo
+完善信息:/api/protect/completeUserInfo
     id: string
     sex: string
     userType: string
     avatar: string
     userNo: string
+    token: string
