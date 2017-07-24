@@ -2,6 +2,7 @@ let express = require('express');
 let app = express();
 let bodyParser = require('body-parser');
 let mongoose = require('mongoose');
+let multer  = require('multer');
 global.config = require('./config/config');
 global.process.env.PORT = config.port;
 global.process.env.IP = config.server;
@@ -45,7 +46,15 @@ app.use(function(req, res, next) { //allow cross origin requests
     next();
 });
 
+// need to use the https://www.npmjs.org/package/body-parser module to parse the body of POST request.
+// If you want the headers to show up for static files as well, try this (make sure it's before the call to use(express.static()):
+// 创建 application/x-www-form-urlencoded 编码解析
+app.use(bodyParser.urlencoded({ extended: false }));
+// parse application/json
 app.use(bodyParser.json());
+
+//设置multer
+app.use(multer({ dest: '/tmp/'}).array('image'));
 
 app.use(require('./controllers'));
 
