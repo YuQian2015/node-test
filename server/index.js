@@ -1,3 +1,4 @@
+let path = require('path');
 let express = require('express');
 let app = express();
 let bodyParser = require('body-parser');
@@ -6,6 +7,8 @@ let multer  = require('multer');
 global.config = require('./config/config');
 global.process.env.PORT = config.port;
 global.process.env.IP = config.server;
+
+let cors = require('./middlewares/cors');
 
 let jwt = require('jsonwebtoken');
 let User = require('./models/user');
@@ -36,15 +39,18 @@ mongoose.connection.on('disconnected', function() {
 
 
 
+//设置静态资源
+// GET /javascripts/jquery.js
+// GET /style.css
+// GET /favicon.ico
+app.use(express.static(path.resolve(__dirname, '../public')));
+
 /** 设置跨域
 Seting up server to accept cross-origin browser requests */
-app.use(function(req, res, next) { //allow cross origin requests
-    res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Control-Allow-Credentials", true);
-    next();
-});
+
+//使用cors允许跨域
+// var cors = require('cors')
+app.use(cors())
 
 // need to use the https://www.npmjs.org/package/body-parser module to parse the body of POST request.
 // If you want the headers to show up for static files as well, try this (make sure it's before the call to use(express.static()):
@@ -54,7 +60,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //设置multer
-app.use(multer({ dest: '/tmp/'}).array('image'));
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './upload/')
+  },
+  filename: function (req, file, cb) {
+    console.log(cb);
+    cb(null, file.originalname)
+  }
+})
+app.use(multer({storage: storage}).array('files'));
 
 app.use(require('./controllers'));
 

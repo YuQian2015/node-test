@@ -4,8 +4,7 @@
   "description": "node",
   "main": "index.js",
   "scripts": {
-    "test": "node server/server.js",
-    "index": "node server/index.js",
+    "server": "node server/index.js",
     "mongo": "net start tjjy",
     "build": "webpack --progress",
     "dev": "webpack-dev-server --open"
@@ -22,8 +21,7 @@
     "jsonwebtoken": "^7.4.1",
     "mongodb": "^2.2.29",
     "mongoose": "^4.10.8",
-    "multer": "^1.3.0",
-    "vue": "^2.3.4"
+    "multer": "^1.3.0"
   },
   "devDependencies": {
     "cors": "^2.8.4",
