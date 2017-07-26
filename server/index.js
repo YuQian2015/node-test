@@ -71,7 +71,7 @@ var storage = multer.diskStorage({
 })
 app.use(multer({storage: storage}).array('files'));
 
-app.use(require('./controllers'));
+app.use('/api',require('./controllers'));
 
 app.get('/', function(req, res){
     res.send('hello world');

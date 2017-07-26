@@ -1,4 +1,3 @@
-let fs = require("fs");
 let express = require('express');
 let router = express.Router();
 let response = require('../middlewares/response');
