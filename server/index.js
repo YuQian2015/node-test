@@ -16,25 +16,19 @@ let User = require('./models/user');
 mongoose.Promise = global.Promise;
 mongoose.connect(global.config.mongoDB);
 
-/**
-  * 连接成功
-  */
+// 连接成功
 mongoose.connection.on('connected', function() {
-  console.log('Mongoose connection open to ' + global.config.mongoDB);
+  console.log('Mongoose连接到' + global.config.mongoDB);
 });
 
-/**
- * 连接异常
- */
+// 连接异常
 mongoose.connection.on('error', function(err) {
-  console.log('Mongoose connection error: ' + err);
+  console.log('Mongoose连接错误: ' + err);
 });
 
-/**
- * 连接断开
- */
+// 连接断开
 mongoose.connection.on('disconnected', function() {
-  console.log('Mongoose connection disconnected');
+  console.log('Mongoose连接断开');
 });
 
 
@@ -62,7 +56,7 @@ app.use(bodyParser.json());
 //设置multer
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './upload/')
+    cb(null, config.UPLOAD_IMG_DIR)
   },
   filename: function (req, file, cb) {
     console.log(cb);

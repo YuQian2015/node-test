@@ -7,10 +7,9 @@ var appConfig = {
   jwt_secret:"tjjy",
 
 
-  // api
-  register:"/api/register",
+  UPLOAD_IMG_DIR:"F:/project/tjjy/static/images",
+  IMG_URL:"http://localhost:8089/static/images/"
 
-  uploadFile:"/api/uploadFile"
 }
 
 module.exports = appConfig;

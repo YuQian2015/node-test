@@ -9,7 +9,8 @@ router.post('/upload', function(req, res) {
 
     var response = {
       message: 'File uploaded successfully',
-      filename: req.files[0].originalname
+      filename: req.files[0].originalname,
+      url:config.IMG_URL+req.files[0].originalname,
     };
     res.end(JSON.stringify(response));
   } catch (err) {
