@@ -7,7 +7,8 @@ var appConfig = {
   jwt_secret:"tjjy",
 
 
-  UPLOAD_IMG_DIR:"F:/project/tjjy/static/images",
+  // UPLOAD_IMG_DIR:"F:/project/tjjy/static/images",
+  UPLOAD_IMG_DIR:"D:/nginx/tjjy/static/images",
   IMG_URL:"http://localhost:8089/static/images/"
 
 }
