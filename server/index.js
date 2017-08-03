@@ -3,7 +3,6 @@ let express = require('express');
 let app = express();
 let bodyParser = require('body-parser');
 let mongoose = require('mongoose');
-let multer  = require('multer');
 global.config = require('./config/config');
 global.process.env.PORT = config.port;
 global.process.env.IP = config.server;
@@ -53,27 +52,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-//设置multer
-// var storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, config.UPLOAD_IMG_DIR)
-//   },
-//   filename: function (req, file, cb) {
-//     console.log(cb);
-//     cb(null, file.originalname)
-//   }
-// })
-// var froalaStorage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, config.FROALA_UPLOAD_IMG_DIR)
-//   },
-//   filename: function (req, file, cb) {
-//     console.log(cb);
-//     cb(null, file.originalname)
-//   }
-// })
-// app.use(multer({storage: storage}).array('files'));
-// app.use(multer({storage: froalaStorage}).single('file'));//单个文件，字段名为file
 
 app.use('/api',require('./controllers'));
 

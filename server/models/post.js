@@ -14,5 +14,6 @@ module.exports = mongoose.model('Post', new Schema({
   tags: Array,
   description:String,
   content:String,
-  typeCode:String
+  typeCode:String,
+  title:String
 }));

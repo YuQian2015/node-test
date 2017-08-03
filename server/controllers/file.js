@@ -3,6 +3,7 @@ let router = express.Router();
 let multer  = require('multer');
 let response = require('../middlewares/response');
 
+//设置multer
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, config.UPLOAD_IMG_DIR)

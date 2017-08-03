@@ -67,6 +67,7 @@ router.post('/addPost', function(req, res) {
   post.content = req.body.content || '';
   post.typeCode = req.body.typeCode || '00';
   post.private = req.body.private || false;
+  post.title = req.body.title || '';
 
 
   post.save(function(err, data) {
