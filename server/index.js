@@ -7,7 +7,7 @@ global.config = require('./config/config');
 global.process.env.PORT = config.port;
 global.process.env.IP = config.server;
 
-let cors = require('./middlewares/cors');
+// let cors = require('./middlewares/cors');//NG失效待验证
 
 let jwt = require('jsonwebtoken');
 let User = require('./models/user');
@@ -42,8 +42,10 @@ app.use(express.static(path.resolve(__dirname, '../public')));
 Seting up server to accept cross-origin browser requests */
 
 //使用cors允许跨域
-// var cors = require('cors')
+var cors = require('cors')
 app.use(cors())
+
+
 
 // need to use the https://www.npmjs.org/package/body-parser module to parse the body of POST request.
 // If you want the headers to show up for static files as well, try this (make sure it's before the call to use(express.static()):
