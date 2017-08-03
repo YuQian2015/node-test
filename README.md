@@ -10,6 +10,7 @@ npm install --global webpack webpack-dev-server
 
 
 ## 接口调用传参统一用JSON JSON请求headers---"Content-Type":"application/json"
+localhost:3000
 
 ## 注册:/api/user/signup
     email: string

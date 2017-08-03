@@ -7,9 +7,12 @@ var appConfig = {
   jwt_secret:"tjjy",
 
 
-  // UPLOAD_IMG_DIR:"F:/project/tjjy/static/images",
-  UPLOAD_IMG_DIR:"D:/nginx/tjjy/static/images",
-  IMG_URL:"http://localhost:8089/static/images/"
+  UPLOAD_IMG_DIR:"F:/project/tjjy/static/images",
+  FROALA_UPLOAD_IMG_DIR:"F:/project/tjjy/static/images/froala",
+  // UPLOAD_IMG_DIR:"D:/nginx/tjjy/static/images",
+  // FROALA_UPLOAD_IMG_DIR:"D:/nginx/tjjy/static/images/froala",
+  IMG_URL:"http://localhost:8089/static/images/",
+  FROALA_IMG_URL:"http://localhost:8089/static/images/froala/"
 
 }
 
