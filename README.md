@@ -35,11 +35,13 @@ localhost:3000
     token: string
 
 ## 添加文章:/api/protect/addPost
-    private:Boolean,
+    visible:Boolean,
     source:String,
     tags: Array,
     description:String,
     content:String,
+    title:String,
+    cover:String,
     typeCode:String  //00未知
 
 ## 获取文章:/api/post/getPost

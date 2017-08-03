@@ -51,6 +51,9 @@ router.post('/completeUserInfo', function(req, res) {
 });
 
 router.post('/addPost', function(req, res) {
+  console.log(req);
+  console.log(req.body);
+
   let {name, _id} = req.decoded;
   let post = new Post({
     authorName: name,
@@ -66,8 +69,9 @@ router.post('/addPost', function(req, res) {
   post.description = req.body.description || '';
   post.content = req.body.content || '';
   post.typeCode = req.body.typeCode || '00';
-  post.private = req.body.private || false;
+  post.visible = req.body.visible || true;
   post.title = req.body.title || '';
+  post.cover = req.body.cover || '';
 
 
   post.save(function(err, data) {

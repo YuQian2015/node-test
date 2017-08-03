@@ -17,7 +17,7 @@ router.post('/getPost', function(req, res) {
     if (err) {
       return res.json(response({"errorCode": "000"}));
     }
-    if (!post || (post.private && (userId !== post.authorId))) {
+    if (!post || (!post.visible && (userId !== post.authorId))) {
       return res.status(404).json(response({"errorCode": "404"}));
     }
     res.json(response({

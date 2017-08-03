@@ -7,7 +7,7 @@ module.exports = mongoose.model('Post', new Schema({
   createDate: Date,
   modifyDate: Date,
   isDelete: Boolean,
-  private: Boolean,
+  visible: Boolean,
   pageviews: Number,
   source:String,
   likes:Number,
@@ -15,5 +15,6 @@ module.exports = mongoose.model('Post', new Schema({
   description:String,
   content:String,
   typeCode:String,
-  title:String
+  title:String,
+  cover:String
 }));
