@@ -51,8 +51,6 @@ router.post('/completeUserInfo', function(req, res) {
 });
 
 router.post('/addPost', function(req, res) {
-  console.log(req);
-  console.log(req.body);
 
   let {name, _id} = req.decoded;
   let post = new Post({
