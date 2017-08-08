@@ -42,7 +42,7 @@ app.use(express.static(path.resolve(__dirname, '../public')));
 Seting up server to accept cross-origin browser requests */
 
 //使用cors允许跨域
-var cors = require('cors')
+let cors = require('cors')
 app.use(cors())
 
 
