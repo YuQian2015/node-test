@@ -1,6 +1,7 @@
 var appConfig = {
-  server:"127.0.0.1",
-  port:3000,
+  // SERVER:"127.0.0.1",
+  SERVER:"0.0.0.0",
+  PORT:3000,
 
 
   mongoDB:"mongodb://localhost:3001/tjjy",
@@ -26,7 +27,7 @@ var appConfig = {
   // IMG_THUMB_URL:"http://localhost:8089/static/images/thumb/",
   // FROALA_IMG_URL:"http://localhost:8089/static/images/froala/",
   // FROALA_IMG_THUMB_URL:"http://localhost:8089/static/images/froala/thumb/"
-  
+
   IMG_URL:"http://47.92.101.205:8089/static/images/",
   IMG_THUMB_URL:"http://47.92.101.205:8089/static/images/thumb/",
   FROALA_IMG_URL:"http://47.92.101.205:8089/static/images/froala/",

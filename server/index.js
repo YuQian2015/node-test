@@ -4,8 +4,8 @@ let app = express();
 let bodyParser = require('body-parser');
 let mongoose = require('mongoose');
 global.config = require('./config/config');
-global.process.env.PORT = config.port;
-global.process.env.IP = config.server;
+global.process.env.PORT = config.PORT || 3000;
+global.process.env.IP = config.SERVER || "127.0.0.1";
 
 // let cors = require('./middlewares/cors');//NG失效待验证
 
@@ -61,6 +61,6 @@ app.get('/', function(req, res){
     res.send('hello world');
 });
 
-app.listen(process.env.PORT || 3000, process.env.IP || "127.0.0.1", function() {
+app.listen(process.env.PORT, process.env.IP, function() {
   console.log('Server running');
 });
