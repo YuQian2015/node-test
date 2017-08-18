@@ -63,7 +63,7 @@ router.post('/getPostList', function(req, res) {
       return res.status(404).json(response({"errorCode": "404"}));
     }
     Post.count().exec(function(err, count) {
-      let totalPage = count/pageSize,
+      let totalPage = Math.ceil(count/pageSize),
           next = (totalPage>page)?true:false,
           previous = (page>1)?true:false;
 
