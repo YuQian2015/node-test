@@ -65,21 +65,18 @@ router.post('/uploadImage', function(req, res) {
       })
       console.log('All done!');
     });
-
-
-
-
-
-
-    // var response = {
-    //   message: 'File uploaded successfully',
-    //   filename: req.files[0].originalname,
-    //   url:config.IMG_URL+req.files[0].originalname,
-    // };
-    // res.end(JSON.stringify(response));
   } catch (err) {
     res.sendStatus(400);
   }
+});
+
+router.post('/imageManager', function(req, res) {
+  Images.find().lean().exec(function(err, imgs) {
+    if (err) {
+      return res.json(response({"errorCode": "000"}));
+    }
+    res.json(imgs);
+  })
 });
 
 module.exports = router;
