@@ -8,10 +8,10 @@ var appConfig = {
   jwt_secret:"tjjy",
 
   // 公司电脑
-  // UPLOAD_IMG_DIR:"F:/project/tjjy/static/images/",//图片上传地址
-  // UPLOAD_IMG_THUMB_DIR:"F:/project/tjjy/static/images/thumb/",//图片预览地址
-  // FROALA_UPLOAD_IMG_DIR:"F:/project/tjjy/static/images/froala/",//编辑器图片上传地址
-  // FROALA_UPLOAD_IMG_THUMB_DIR:"F:/project/tjjy/static/images/froala/thumb/",//编辑器图片预览地址
+  UPLOAD_IMG_DIR:"F:/project/tjjy/static/images/",//图片上传地址
+  UPLOAD_IMG_THUMB_DIR:"F:/project/tjjy/static/images/thumb/",//图片预览地址
+  FROALA_UPLOAD_IMG_DIR:"F:/project/tjjy/static/images/froala/",//编辑器图片上传地址
+  FROALA_UPLOAD_IMG_THUMB_DIR:"F:/project/tjjy/static/images/froala/thumb/",//编辑器图片预览地址
 
   // 服务器
   // UPLOAD_IMG_DIR:"C:/tjjy/static/images/",
@@ -20,10 +20,10 @@ var appConfig = {
   // FROALA_UPLOAD_IMG_THUMB_DIR:"C:/tjjy/static/images/froala/thumb/",
 
   // 自己电脑
-  UPLOAD_IMG_DIR:"D:/nginx/tjjy/static/images/",
-  UPLOAD_IMG_THUMB_DIR:"D:/nginx/tjjy/static/images/thumb/",
-  FROALA_UPLOAD_IMG_DIR:"D:/nginx/tjjy/static/images/froala/",
-  FROALA_UPLOAD_IMG_THUMB_DIR:"D:/nginx/tjjy/static/images/froala/thumb/",
+  // UPLOAD_IMG_DIR:"D:/nginx/tjjy/static/images/",
+  // UPLOAD_IMG_THUMB_DIR:"D:/nginx/tjjy/static/images/thumb/",
+  // FROALA_UPLOAD_IMG_DIR:"D:/nginx/tjjy/static/images/froala/",
+  // FROALA_UPLOAD_IMG_THUMB_DIR:"D:/nginx/tjjy/static/images/froala/thumb/",
 
   IMG_URL:"http://localhost:8089/static/images/",
   IMG_THUMB_URL:"http://localhost:8089/static/images/thumb/",

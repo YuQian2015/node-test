@@ -1,73 +1,94 @@
 let express = require('express');
 let router = express.Router();
-let multer  = require('multer');
+let multer = require('multer');
 let response = require('../middlewares/response');
 let thumb = require('node-thumbnail').thumb;
 
 let Images = require('../models/images');
 
-//设置multer
+//设置multer，用于上传图片
 var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: function(req, file, cb) {
     cb(null, config.UPLOAD_IMG_DIR)
   },
-  filename: function (req, file, cb) {
-    console.log(cb);
-    cb(null, Date.now() +'.'+ file.originalname.match(/[^\.]\w*$/)[0])
+  filename: function(req, file, cb) {
+    cb(null, Date.now() + '.' + file.originalname.match(/[^\.]\w*$/)[0])
   }
 })
-router.use(multer({storage: storage}).array('files'));
-
-
-
+router.use(multer({storage: storage}).array('files', 12));
 
 router.post('/uploadImage', function(req, res) {
-  let img = new Images({
-      url: config.IMG_URL+req.files[0].filename,
-      thumb: config.IMG_THUMB_URL+req.files[0].filename,
+  let total = req.files.length,
+    result = [],
+    responseArray = [];
+
+  function saveAll() {
+    let doc = req.files.shift();
+    let img = new Images({
+      url: config.IMG_URL + doc.filename,
+      thumb: config.IMG_THUMB_URL + doc.filename,
       tag: 'default',
-      name: req.files[0].originalname,
-      id: Date.now(),
-  });
-
-  console.log(req.files[0]); // 上传的文件信息
-  try {
-    const response = {
-      message: 'success',
-      filename: req.files[0].originalname,
-      url:config.IMG_URL+req.files[0].filename,
-      thumb:config.IMG_THUMB_URL+req.files[0].filename
-    };
-
-
-    thumb({
-      source: config.UPLOAD_IMG_DIR+req.files[0].filename,
-      destination: config.UPLOAD_IMG_THUMB_DIR,
-      concurrency: 4,
-      prefix: '',
-      suffix: '',
-      digest: false,
-      // hashingType: 'sha1', // 'sha1', 'md5', 'sha256', 'sha512'
-      width: 200,
-      quiet: false, // if set to 'true', console.log status messages will be supressed
-      overwrite: false,
-      // basename: undefined, // basename of the thumbnail. If unset, the name of the source file is used as basename.
-      // ignore: false, // Ignore unsupported files in "dest"
-      logger: function(message) {
-        console.log(message);
-      }
-    }, function(files, err, stdout, stderr) {
-      img.save(function(error, data) {
-        if (error) {
-          return res.json(response({"errorCode": "000"}));
-        }
-        res.end(JSON.stringify(response));
-      })
-      console.log('All done!');
+      name: doc.originalname,
+      id: Date.now()
     });
-  } catch (err) {
-    res.sendStatus(400);
+
+    try {
+      let currentImage = {
+        message: 'success',
+        filename: doc.filename,
+        name: doc.originalname,
+        url: config.IMG_URL + doc.filename,
+        thumb: config.IMG_THUMB_URL + doc.filename
+      };
+
+      thumb({
+        source: config.UPLOAD_IMG_DIR + currentImage.filename,
+        destination: config.UPLOAD_IMG_THUMB_DIR,
+        concurrency: 4,
+        prefix: '',
+        suffix: '',
+        digest: false,
+        // hashingType: 'sha1',  'sha1', 'md5', 'sha256', 'sha512'
+        width: 200,
+        quiet: false, // if set to 'true', console.log status messages will be supressed
+        overwrite: false,
+        // basename: undefined,  basename of the thumbnail. If unset, the name of the source file is used as basename.
+        // ignore: false,  Ignore unsupported files in "dest"
+        logger: function(message) {
+          console.log(message);
+        }
+      }, function(files, err, stdout, stderr) {
+        // img.save(function(error, data) {
+        //   if (error) {
+        //     return res.json(response({"errorCode": "000"}));
+        //   }
+        //   res.end(JSON.stringify(response));
+        // })
+        img.save(function(err, saved) {
+          if (err) {
+            throw err; //handle error
+          }
+          responseArray.push(currentImage)
+          result.push(saved[0]);
+
+          if (--total) {
+            saveAll();
+          } else {
+            // all saved here
+            res.json(response({
+              "data": {
+                result: responseArray
+              }
+            }));
+            console.log('All done!');
+          }
+        })
+      });
+    } catch (err) {
+      res.sendStatus(400);
+    }
   }
+  saveAll();
 });
 
 router.post('/imageManager', function(req, res) {
