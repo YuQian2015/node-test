@@ -1,10 +1,12 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
-module.exports = mongoose.model('Images', new Schema({
+let imageSchema = new Schema({
   url: String,
   thumb: String,
-  tag: String,
-  name: String,
-  id: String,
-}));
+  tag: Number,
+  tagName: String,
+  name: String
+});
+
+module.exports = mongoose.model('Images', imageSchema);

@@ -2,6 +2,7 @@ let express = require('express');
 let router = express.Router();
 let User = require('../models/user');
 let Post = require('../models/post');
+let ImageTags = require('../models/imageTags');
 
 let response = require('../middlewares/response');
 
@@ -73,6 +74,26 @@ router.post('/addPost', function(req, res) {
 
 
   post.save(function(err, data) {
+    if (err) {
+      return res.json(response({"errorCode": "000"}));
+    }
+    res.json(response({
+      "data": {
+        result: "添加成功"
+      }
+    }));
+  })
+});
+
+router.post('/addImageTags', function(req, res) {
+
+  let {tag, tagName} = req.body;
+  let tags = new ImageTags({
+    tag: tag,
+    tagName: tagName
+  });
+
+  tags.save(function(err, data) {
     if (err) {
       return res.json(response({"errorCode": "000"}));
     }

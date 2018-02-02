@@ -27,9 +27,9 @@ router.post('/uploadImage', function(req, res) {
     let img = new Images({
       url: config.IMG_URL + doc.filename,
       thumb: config.IMG_THUMB_URL + doc.filename,
-      tag: 'default',
-      name: doc.originalname,
-      id: Date.now()
+      tag: 0,
+      tagName: 'default',
+      name: doc.originalname
     });
 
     try {
