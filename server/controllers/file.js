@@ -24,11 +24,13 @@ router.post('/uploadImage', function(req, res) {
 
   function saveAll() {
     let doc = req.files.shift();
+    let tag = req.body.tag || 0;
+    let tagName = req.body.tagName || "默认";
     let img = new Images({
       url: config.IMG_URL + doc.filename,
       thumb: config.IMG_THUMB_URL + doc.filename,
-      tag: 0,
-      tagName: 'default',
+      tag: tag,
+      tagName: tagName,
       name: doc.originalname
     });
 
