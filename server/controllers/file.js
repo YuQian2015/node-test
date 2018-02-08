@@ -101,5 +101,13 @@ router.post('/imageManager', function(req, res) {
     res.json(imgs);
   })
 });
+router.get('/getImages', function(req, res) {
+  Images.find().lean().exec(function(err, imgs) {
+    if (err) {
+      return res.json(response({"errorCode": "000"}));
+    }
+    res.json(imgs);
+  })
+});
 
 module.exports = router;
